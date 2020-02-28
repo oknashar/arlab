@@ -1,6 +1,7 @@
-import 'package:arlab/AddItem.dart';
-import 'package:arlab/Home.dart';
+import 'package:arlab/Splach.dart';
 import 'package:flutter/material.dart';
+
+import 'Home.dart';
 
 void main() => runApp(MyApp());
 class MyApp extends StatefulWidget {
@@ -13,7 +14,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AddItem(),
+      home: Splash(),
     );
   }
 }
