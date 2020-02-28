@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "527718439250",
+    "firebase_url": "https://arlap-ae92b.firebaseio.com",
+    "project_id": "arlap-ae92b",
+    "storage_bucket": "arlap-ae92b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527718439250:android:2d12f8408e54e03611428b",
+        "android_client_info": {
+          "package_name": "com.example.arlab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527718439250-on7pl0mdijh8skipfog7quv44gsunm7c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.arlab",
+            "certificate_hash": "7944c95abab7fda7b05262664f8279a44a2260eb"
+          }
+        },
+        {
+          "client_id": "527718439250-gdm6cftck73l1umohva3386ptpf1i2t2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdVjzkVs5VKkMShkHh2m84lyW0F34mYYk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527718439250-gdm6cftck73l1umohva3386ptpf1i2t2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "527718439250-7tul8qdhsotthq6r5ll2l9fd2120r01i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.arlab"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
