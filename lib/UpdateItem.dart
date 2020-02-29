@@ -9,12 +9,14 @@ import 'package:flutter_hsvcolor_picker/flutter_hsvcolor_picker.dart';
 
 import 'SignIn.dart';
 
-class AddItem extends StatefulWidget {
+class UpdateItem extends StatefulWidget {
+  DocumentSnapshot document;
+  UpdateItem(this.document);
   @override
-  _AddItemState createState() => _AddItemState();
+  _UpdateItemState createState() => _UpdateItemState();
 }
 
-class _AddItemState extends State<AddItem> {
+class _UpdateItemState extends State<UpdateItem> {
   CrudFire crud=new CrudFire();
   FirebaseUser user;
   Future<void> getUserData() async {
@@ -29,59 +31,59 @@ class _AddItemState extends State<AddItem> {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => SignIn()));
   }
-  addElement(){
+  updateElement(){
     if(formstate.currentState.validate()){
       formstate.currentState.save();
       print(_selectedColor.toString());
-     Firestore.instance.collection('Items').add({
-       'name':_name,
-       'symbol':_Symbol,
-       'color':_selectedColor.value,
-       'userid':user.uid
-     });
-     Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard()));
+      crud.update({
+        'name':_name,
+        'symbol':_Symbol,
+        'color':_selectedColor.value,
+        'userid':user.uid
+      }, widget.document.documentID);
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard()));
     }
   }
 
   createAlertColor(BuildContext context ,Color color ){
     var alert =
     ListView(
-      children: <Widget>[
+        children: <Widget>[
 
-        AlertDialog(
+          AlertDialog(
 
-          title: Text("Color Picker"),
-          content: Container(
-            width: 150,
-            height: MediaQuery.of(context).size.height/1.3,
-            child: Column(
-              children: <Widget>[
-               ColorPicker(
-                color:Colors.red,
-                  onChanged:(v) {
-                  setState(() {
-                    _selectedColor = v;
-                    print(_selectedColor);
-                  });
-                }
-            ),
-                RaisedButton(
-                  color: Colors.red,
-                  child: Center(
-                   child:Text('Save',style: TextStyle(color: Colors.white),),
-                  ),
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
-                )
-            ],
-          ),
-        )
-            )
-            ]
+              title: Text("Color Picker"),
+              content: Container(
+                width: 150,
+                height: MediaQuery.of(context).size.height/1.3,
+                child: Column(
+                  children: <Widget>[
+                    ColorPicker(
+                        color:Colors.red,
+                        onChanged:(v) {
+                          setState(() {
+                            _selectedColor = v;
+                            print(_selectedColor);
+                          });
+                        }
+                    ),
+                    RaisedButton(
+                      color: Colors.red,
+                      child: Center(
+                        child:Text('Save',style: TextStyle(color: Colors.white),),
+                      ),
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                ),
+              )
+          )
+        ]
     );
     showDialog(context: context , builder: (context){
-    return alert;
+      return alert;
 
 
 
@@ -90,9 +92,10 @@ class _AddItemState extends State<AddItem> {
   @override
   void initState() {
     super.initState();
+    _selectedColor=Color(widget.document.data['color']);
     getUserData();
   }
-    final GlobalKey<FormState> formstate = GlobalKey<FormState>();
+  final GlobalKey<FormState> formstate = GlobalKey<FormState>();
   String _name,_Symbol,_color;
   Color _selectedColor;
 
@@ -103,7 +106,7 @@ class _AddItemState extends State<AddItem> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(175, 29, 93, 1),
-        title: Text('Add Element'),
+        title: Text('Update Element'),
         centerTitle: true,
       ),
       drawer: Maindrawer(),
@@ -148,6 +151,7 @@ class _AddItemState extends State<AddItem> {
                             onSaved: (val){
                               _name=val;
                             },
+                            initialValue: widget.document.data['name'],
                           ),
                         ),
                         Container(
@@ -155,7 +159,7 @@ class _AddItemState extends State<AddItem> {
                           height: 1,
                           color: Color.fromRGBO(92, 29, 79, 1),
                         ),
-                         SizedBox(
+                        SizedBox(
                           height: h / 40,
                         ),
                         Container(
@@ -176,6 +180,7 @@ class _AddItemState extends State<AddItem> {
                             onSaved: (val){
                               _Symbol=val;
                             },
+                            initialValue: widget.document.data['symbol'],
                           ),
                         ),
                         Container(
@@ -196,40 +201,39 @@ class _AddItemState extends State<AddItem> {
                           image: AssetImage('images/form2.png'),
                           fit: BoxFit.fill)),
                   child: Center(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text('Click to Color lens to Choose Color',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                        InkWell(
-                          onTap:(){ createAlertColor(context, _selectedColor);
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('Click to Color lens to Choose Color',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                          InkWell(
+                            onTap:(){ createAlertColor(context, _selectedColor);
                             _color=_selectedColor.toString();},
+                            child: IconButton(
+                              icon: Icon(Icons.color_lens,size: 80,color: _selectedColor,),
 
-                          child: IconButton(
-                            icon: Icon(Icons.color_lens,size: 100,color: _selectedColor,),
-
+                            ),
                           ),
-                        ),
-                      ],
-                    )
+                        ],
+                      )
                   ),
                 ),
                 SizedBox(height: h/15,),
                 InkWell(
-                  onTap: addElement,
+                  onTap: updateElement,
                   child: Container(
                     width: w/2,
                     height: h/14,
                     decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('images/appbarbg.png'),
-                        fit: BoxFit.cover
-                      )
+                        image: DecorationImage(
+                            image: AssetImage('images/appbarbg.png'),
+                            fit: BoxFit.cover
+                        )
                     ),
                     child: Center(
-                      child: Text('Add',style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 26
+                      child: Text('Update',style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 26
                       ),),
                     ),
                   ),

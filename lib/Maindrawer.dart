@@ -1,3 +1,4 @@
+import 'package:arlab/Dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -65,6 +66,24 @@ class _MaindrawerState extends State<Maindrawer> {
                 const EdgeInsets.only(left: 20.0, bottom: 10, right: 20),
                 child: Column(
                   children: <Widget>[
+                    InkWell(
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Dashboard())),
+                      child: Row(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.dashboard,
+                              color: Color.fromRGBO(67, 30, 75, 1),
+                            ),
+                          ),
+                          Text(
+                            'Dashboard',
+                            style: TextStyle(fontSize: 24),
+                          ),
+                        ],
+                      ),
+                    ),
                     InkWell(
                       onTap: () => Navigator.push(context,
                           MaterialPageRoute(builder: (context) => AddItem())),
