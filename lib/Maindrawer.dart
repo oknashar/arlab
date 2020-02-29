@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'AddItem.dart';
+import 'DeleteItem.dart';
 import 'SignIn.dart';
 
 class Maindrawer extends StatefulWidget {
@@ -48,7 +49,7 @@ class _MaindrawerState extends State<Maindrawer> {
                 height: h / 4,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('images/appbarbg.png'),
+                        image: AssetImage('images/background.png'),
                         fit: BoxFit.cover)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -120,7 +121,7 @@ class _MaindrawerState extends State<Maindrawer> {
                       ),
                     ),
                     InkWell(
-                      onTap: signout,
+                      onTap:()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteItem())),
                       child: Row(
                         children: <Widget>[
                           IconButton(
@@ -202,3 +203,4 @@ class _MaindrawerState extends State<Maindrawer> {
     );
   }
 }
+

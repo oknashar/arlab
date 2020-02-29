@@ -1,3 +1,6 @@
+
+
+
 import 'package:arlab/UpdateItem.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,12 +11,13 @@ import 'package:flutter/painting.dart';
 import 'CRUD.dart';
 import 'Maindrawer.dart';
 
-class Dashboard extends StatefulWidget {
+class DeleteItem extends StatefulWidget {
+
   @override
-  _DashboardState createState() => _DashboardState();
+  _DeleteItemState createState() => _DeleteItemState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DeleteItemState extends State<DeleteItem> {
   CrudFire crud = new CrudFire();
   QuerySnapshot Items;
   FirebaseUser user;
@@ -28,6 +32,8 @@ class _DashboardState extends State<Dashboard> {
       });
     });
   }
+
+
 
   Widget showItems() {
     if (Items != null && Items.documents != null) {
@@ -56,9 +62,9 @@ class _DashboardState extends State<Dashboard> {
                               height: 60,
                               decoration: BoxDecoration(
                                 color:
-                                    Color(Items.documents[index].data['color']),
+                                Color(Items.documents[index].data['color']),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(50)),
+                                BorderRadius.all(Radius.circular(50)),
                               ),
                             ),
                             Column(
@@ -104,15 +110,15 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             IconButton(
                               icon: Icon(
-                                Icons.edit,
-                                color: Colors.green,
+                                Icons.delete,
+                                color: Colors.red,
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                    context,
+                                crud.delete(Items.documents[index].reference.documentID);
+                                Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            UpdateItem(Items.documents[index])));
+                                        builder: (context) => DeleteItem()),
+                                    (Route <dynamic> route )=>false);
                               },
                             ),
                           ],
@@ -154,7 +160,7 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black.withOpacity(0.9),
-          title: Text('Dashboard'),
+          title: Text('Delete'),
           centerTitle: true,
         ),
         drawer: Maindrawer(),

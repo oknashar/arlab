@@ -45,7 +45,7 @@ class _SignUpState extends State<SignUp> {
             height: h,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("images/Singupbg.png"),
+                    image: AssetImage("images/signupbg.png"),
                     fit: BoxFit.cover
                 )
             ),
@@ -53,69 +53,52 @@ class _SignUpState extends State<SignUp> {
               key: formstate,
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: 200,),
+                  SizedBox(height: h/2,),
 
                   //Logo added
-                  Container(
-                    width:w/1.5,
-                    height:  h/5,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("images/vlabpos.png"),
-                            fit: BoxFit.cover
-                        )
-                    ),),
 
 
                   // Username TextField
                   Container(
-                    width:w-50,
-                    decoration: BoxDecoration(
-                    ),
+                    width: w - 50,
+                    decoration: BoxDecoration(),
                     child: TextFormField(
                       decoration: InputDecoration(
-                          hintText: 'Username',
-                          hintStyle: TextStyle(
-                              color: Color.fromRGBO(60, 31, 74, 1),
-                              fontSize: 16
-                          ),
-                          icon: Icon(Icons.person,color:Color.fromRGBO(60, 31, 74, 1),size:w/12,),
-                          border: InputBorder.none
+                        suffixIcon: Icon(Icons.person, color: Colors.black),
+                        labelText: 'UserName',
+                        border:
+                        OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                        labelStyle: TextStyle(fontSize: 20),
                       ),
-                      validator: (val){
-                        if(val==null){
-                          return 'Enter User Name';
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (val) {
+                        // ignore: missing_return, missing_return
+                        if (val.isEmpty) {
+                          return 'please Enter your Email';
                         }
                       },
-                      onSaved: (val){
-                        _username=val;
+                      onSaved: (val) {
+                        _username = val;
                       },
                     ),
+                  ),
 
-                  ),
-                  Container(
-                    width:w-50,
-                    height: 1,
-                    color: Color.fromRGBO(112, 112, 112, 1),
-                  ),
 
                   SizedBox(height: 20,),
 
                   // Email
                   Container(
-                    width:w-50,
-                    decoration: BoxDecoration(
-                    ),
+                    width: w - 50,
+                    decoration: BoxDecoration(),
                     child: TextFormField(
                       decoration: InputDecoration(
-                          hintText: 'Email',
-                          hintStyle: TextStyle(
-                              color: Color.fromRGBO(60, 31, 74, 1),
-                              fontSize: 16
-                          ),
-                          icon: Icon(Icons.email,color:Color.fromRGBO(60, 31, 74, 1),size:w/12,),
-                          border: InputBorder.none
+                        suffixIcon: Icon(Icons.person, color: Colors.black),
+                        labelText: 'Email',
+                        border:
+                        OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                        labelStyle: TextStyle(fontSize: 20),
                       ),
+                      keyboardType: TextInputType.emailAddress,
                       validator: (val) {
                         // ignore: missing_return, missing_return
                         if (val.isEmpty) {
@@ -127,28 +110,21 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                   ),
-                  Container(
-                    width:w-50,
-                    height: 1,
-                    color: Color.fromRGBO(112, 112, 112, 1),
-                  ),
+
 
                   SizedBox(height: 20,),
 
                   //Password TextField
                   Container(
-                    width:w-50,
-                    decoration: BoxDecoration(
-                    ),
+                    width: w - 50,
+                    decoration: BoxDecoration(),
                     child: TextFormField(
                       decoration: InputDecoration(
-                          hintText: 'Password',
-                          hintStyle: TextStyle(
-                              color: Color.fromRGBO(60, 31, 74, 1),
-                              fontSize: 16
-                          ),
-                          icon: Icon(Icons.lock,color:Color.fromRGBO(60, 31, 74, 1),size:w/12,),
-                          border: InputBorder.none
+                        suffixIcon: Icon(Icons.lock, color: Colors.black),
+                        labelText: 'Password',
+                        border:
+                        OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                        labelStyle: TextStyle(fontSize: 20),
                       ),
                       obscureText: true,
                       validator: (val) {
@@ -163,11 +139,7 @@ class _SignUpState extends State<SignUp> {
                       },
                     ),
                   ),
-                  Container(
-                    width:w-50,
-                    height: 1,
-                    color: Color.fromRGBO(112, 112, 112, 1),
-                  ),
+
                   // Forget Password
                   SizedBox(height: h/40,),
                   Row(
@@ -184,22 +156,15 @@ class _SignUpState extends State<SignUp> {
                   //Login Button
                   SizedBox(height: h/20,),
                   InkWell(
-                    onTap: signup,
+                    onTap: () => Home(),
                     child: Container(
-                      width: w/1.5,
-                      height: h/5,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage('images/loginbtn.png')
-                          )
-                      ),
+                      width: w / 1.5,
+                      height: h / 20,
+                      color: Color.fromRGBO(40, 49, 54, 1),
                       child: Center(
                         child: Text(
-                          'SignUp',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20
-                          ),
+                          'Login',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
                     ),

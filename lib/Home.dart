@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(175, 29, 93, 1),
+        backgroundColor: Colors.black.withOpacity(0.9),
         title: Text('ADD'),
         centerTitle: true,
       ),
@@ -45,15 +45,16 @@ class _HomeState extends State<Home> {
       body: Container(
         width: w,
         height: h,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('images/background.png'),
+                fit: BoxFit.cover)),
         child: Column(
           children: <Widget>[
             Container(
               width: w / 1.5,
               height: h / 4,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('images/vlabpos.png'),
-                      fit: BoxFit.cover)),
+
             ),
             InkWell(
               onTap: () => Navigator.push(
@@ -61,14 +62,11 @@ class _HomeState extends State<Home> {
               child: Container(
                 width: w / 1.5,
                 height: h / 12,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('images/appbarbg.png'),
-                        fit: BoxFit.cover)),
+                color: Colors.white,
                 child: Center(
                   child: Text(
                     'ADD ELEMENT',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                 ),
               ),
@@ -79,14 +77,11 @@ class _HomeState extends State<Home> {
             Container(
               width: w / 1.5,
               height: h / 12,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('images/appbarbg.png'),
-                      fit: BoxFit.cover)),
+            color: Colors.white,
               child: Center(
                 child: Text(
                   'ADD EQUATION',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: Colors.black, fontSize: 20),
                 ),
               ),
             ),

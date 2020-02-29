@@ -102,14 +102,19 @@ class _AddItemState extends State<AddItem> {
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(175, 29, 93, 1),
+        backgroundColor: Colors.black.withOpacity(0.9),
         title: Text('Add Element'),
         centerTitle: true,
+        automaticallyImplyLeading: true,
       ),
-      drawer: Maindrawer(),
+
       body: Container(
         width: w,
         height: h,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('images/background.png'),
+                fit: BoxFit.cover)),
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0,top: 20),
           child: Form(
@@ -196,21 +201,23 @@ class _AddItemState extends State<AddItem> {
                           image: AssetImage('images/form2.png'),
                           fit: BoxFit.fill)),
                   child: Center(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text('Click to Color lens to Choose Color',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                        InkWell(
-                          onTap:(){ createAlertColor(context, _selectedColor);
-                            _color=_selectedColor.toString();},
+                    child: InkWell(
+                      onTap:(){ createAlertColor(context, _selectedColor);
+                      _color=_selectedColor.toString();},
 
-                          child: IconButton(
-                            icon: Icon(Icons.color_lens,size: 100,color: _selectedColor,),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('Click to Color lens to Choose Color',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
 
-                          ),
-                        ),
-                      ],
+                             IconButton(
+                              icon: Icon(Icons.color_lens,size: 100,color: _selectedColor,),
+
+                            ),
+
+                        ],
+                      ),
                     )
                   ),
                 ),
@@ -220,15 +227,10 @@ class _AddItemState extends State<AddItem> {
                   child: Container(
                     width: w/2,
                     height: h/14,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('images/appbarbg.png'),
-                        fit: BoxFit.cover
-                      )
-                    ),
+                   color: Colors.white,
                     child: Center(
                       child: Text('Add',style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 26
                       ),),
                     ),

@@ -105,14 +105,19 @@ class _UpdateItemState extends State<UpdateItem> {
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(175, 29, 93, 1),
+        backgroundColor: Colors.black.withOpacity(0.9),
         title: Text('Update Element'),
         centerTitle: true,
+        automaticallyImplyLeading: true,
       ),
-      drawer: Maindrawer(),
+
       body: Container(
         width: w,
         height: h,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('images/background.png'),
+                fit: BoxFit.fill)),
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0,top: 20),
           child: Form(
@@ -224,15 +229,10 @@ class _UpdateItemState extends State<UpdateItem> {
                   child: Container(
                     width: w/2,
                     height: h/14,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('images/appbarbg.png'),
-                            fit: BoxFit.cover
-                        )
-                    ),
+                    color: Colors.white,
                     child: Center(
                       child: Text('Update',style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 26
                       ),),
                     ),

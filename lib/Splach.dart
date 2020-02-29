@@ -1,6 +1,7 @@
 
 import 'dart:async';
 import 'package:arlab/SignIn.dart';
+import 'package:arlab/chooseLogin.dart';
 import 'package:flutter/material.dart';
 
 
@@ -19,7 +20,7 @@ class _SplashState extends State<Splash> {
     // TODO: implement initState
     Timer(
       Duration(seconds: 5),
-        () => Navigator.pushReplacement(context , MaterialPageRoute(builder: (context)=>SignIn())));
+        () => Navigator.pushReplacement(context , MaterialPageRoute(builder: (context)=>chooseLogin())));
 
     super.initState();
   }
@@ -32,7 +33,7 @@ class _SplashState extends State<Splash> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/backGround.png"),
+            image: AssetImage("images/splash.png"),
             fit: BoxFit.cover
           )
         ),

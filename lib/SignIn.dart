@@ -44,25 +44,18 @@ class _SignInState extends State<SignIn> {
             height: h,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("images/Loginbg.png"),
+                    image: AssetImage("images/signInbg.png"),
                     fit: BoxFit.cover)),
             child: Form(
               key: formstate,
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 200,
+                    height: h/2,
                   ),
 
                   //Logo added
-                  Container(
-                    width: w / 1.5,
-                    height: h / 5,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("images/vlabpos.png"),
-                            fit: BoxFit.cover)),
-                  ),
+
 
                   // Email TextField
                   Container(
@@ -70,16 +63,12 @@ class _SignInState extends State<SignIn> {
                     decoration: BoxDecoration(),
                     child: TextFormField(
                       decoration: InputDecoration(
-                          hintText: 'Username',
-                          hintStyle: TextStyle(
-                              color: Color.fromRGBO(60, 31, 74, 1),
-                              fontSize: 16),
-                          icon: Icon(
-                            Icons.person,
-                            color: Color.fromRGBO(60, 31, 74, 1),
-                            size: w / 12,
-                          ),
-                          border: InputBorder.none),
+                        suffixIcon: Icon(Icons.person, color: Colors.black),
+                        labelText: 'UserName',
+                        border:
+                        OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                        labelStyle: TextStyle(fontSize: 20),
+                      ),
                       keyboardType: TextInputType.emailAddress,
                       validator: (val) {
                         // ignore: missing_return, missing_return
@@ -92,11 +81,7 @@ class _SignInState extends State<SignIn> {
                       },
                     ),
                   ),
-                  Container(
-                    width: w - 50,
-                    height: 1,
-                    color: Color.fromRGBO(112, 112, 112, 1),
-                  ),
+
 
                   SizedBox(
                     height: 20,
@@ -108,16 +93,12 @@ class _SignInState extends State<SignIn> {
                     decoration: BoxDecoration(),
                     child: TextFormField(
                       decoration: InputDecoration(
-                          hintText: 'Password',
-                          hintStyle: TextStyle(
-                              color: Color.fromRGBO(60, 31, 74, 1),
-                              fontSize: 16),
-                          icon: Icon(
-                            Icons.lock,
-                            color: Color.fromRGBO(60, 31, 74, 1),
-                            size: w / 12,
-                          ),
-                          border: InputBorder.none),
+                        suffixIcon: Icon(Icons.lock, color: Colors.black),
+                        labelText: 'Password',
+                        border:
+                        OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                        labelStyle: TextStyle(fontSize: 20),
+                      ),
                       obscureText: true,
                       validator: (val) {
                         if (val.isEmpty) {
@@ -138,7 +119,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   // Forget Password
                   SizedBox(
-                    height: h / 40,
+                    height: h / 100,
                   ),
                   Row(
                     children: <Widget>[
@@ -160,10 +141,8 @@ class _SignInState extends State<SignIn> {
                     onTap: () => login(),
                     child: Container(
                       width: w / 1.5,
-                      height: h / 5,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage('images/loginbtn.png'))),
+                      height: h / 20,
+                      color: Color.fromRGBO(40, 49, 54, 1),
                       child: Center(
                         child: Text(
                           'Login',
@@ -174,7 +153,7 @@ class _SignInState extends State<SignIn> {
                   ),
 
                   SizedBox(
-                    height: h / 10,
+                    height: h / 30,
                   ),
 
                   Row(
