@@ -1,7 +1,12 @@
+import 'package:arlab/CRUD.dart';
+import 'package:arlab/Maindrawer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hsvcolor_picker/flutter_hsvcolor_picker.dart';
 
+import 'SignIn.dart';
 
 class AddItem extends StatefulWidget {
   @override
@@ -9,11 +14,36 @@ class AddItem extends StatefulWidget {
 }
 
 class _AddItemState extends State<AddItem> {
-Color _color =Colors.red;
-  createAlertColor(BuildContext context ,Color color){
+  CrudFire crud=new CrudFire();
+  FirebaseUser user;
+  Future<void> getUserData() async {
+    FirebaseUser userdata = await FirebaseAuth.instance.currentUser();
+    setState(() {
+      user = userdata;
+      print(user.uid);
+    });
+  }
+  Future<void> signout() async {
+    FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => SignIn()));
+  }
+  addElement(){
+    if(formstate.currentState.validate()){
+      formstate.currentState.save();
+      print(_selectedColor.toString());
+     Firestore.instance.collection('Items').({
+       'name':_name,
+       'symbol':_Symbol,
+       'color':_selectedColor.toString(),
+       'userid':user.uid
+     });
+    }
+  }
 
+  createAlertColor(BuildContext context ,Color color ){
     var alert =
-    Column(
+    ListView(
       children: <Widget>[
 
         AlertDialog(
@@ -21,149 +51,189 @@ Color _color =Colors.red;
           title: Text("Color Picker"),
           content: Container(
             width: 150,
-            height: 600,
-            child: ColorPicker(
-                color:_color,
-                onChanged:(v) {
+            height: MediaQuery.of(context).size.height/1.3,
+            child: Column(
+              children: <Widget>[
+               ColorPicker(
+                color:Colors.red,
+                  onChanged:(v) {
                   setState(() {
-                    _color = v;
-                    print(_color);
+                    _selectedColor = v;
+                    print(_selectedColor);
                   });
                 }
             ),
+                RaisedButton(
+                  color: Colors.red,
+                  child: Center(
+                   child:Text('Save',style: TextStyle(color: Colors.white),),
+                  ),
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                )
+            ],
           ),
         )
-      ],
+            )
+            ]
     );
     showDialog(context: context , builder: (context){
-      return alert;
+    return alert;
+
 
 
     });
   }
-
-Widget tff(TextEditingController controller,String hint){
-  return  Container(
-    width: 300,
-    height: 50,
-
-    child: TextFormField(
-      controller: controller,
-      style: TextStyle(
-      ),
-      cursorColor: Colors.black,
-      decoration: InputDecoration(
-          hintText:hint,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          //  focusedBorder: InputBorder.none,
-          hintStyle: TextStyle(
-            color: Colors.grey.shade700,
-
-          )
-      ),
-    ),
-  );
-}
-TextEditingController _controller1 ;
-  
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+    final GlobalKey<FormState> formstate = GlobalKey<FormState>();
+  String _name,_Symbol,_color;
+  Color _selectedColor;
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Center(
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              right: MediaQuery.of(context).size.width/2-100,
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(175, 29, 93, 1),
+        title: Text('Add Element'),
+        centerTitle: true,
+      ),
+      drawer: Maindrawer(),
+      body: Container(
+        width: w,
+        height: h,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0,top: 20),
+          child: Form(
+            key: formstate,
+            child: ListView(
 
-              child: Container(
-                  width: 200,
-                  height: 50,
-
+              children: <Widget>[
+                Container(
+                  width: w / 1.2,
+                  height: h / 4,
                   decoration: BoxDecoration(
-//                      borderRadius: BorderRadius.circular(70),
-//                      border: Border.all(color: Colors.lightGreen,width: 2)
-                  ),
-                  child: Center(child: Text('Adding a new Item',style:TextStyle(fontSize: 20),))
-
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 500,
-
-              decoration: BoxDecoration(
-                // borderRadius: BorderRadius.circular(70),
-                //  border: Border.all(color: Colors.lightGreen,width: 2)
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        width: 375,
-                        decoration: BoxDecoration(
-
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(color:_color,width: 1)
+                      image: DecorationImage(
+                          image: AssetImage('images/form1.png'),
+                          fit: BoxFit.fill)),
+                  child: Center(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: h / 20,
                         ),
-
-                           child:Padding(
-                             padding: const EdgeInsets.all(10),
-                             child: tff(_controller1,'Enter first element'),
-                           ),
-
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Row(
-                          //mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text('Color:',style: TextStyle(fontSize: 24),),
-                            IconButton(
-                              icon: Icon(Icons.bookmark,color:_color,size: 60,),
-                              onPressed: (){
-
-                                setState(() {
-                                  createAlertColor(context, _color);
-                                });
-                              },
-
-                            ),
-                          ],
+                        Container(
+                          width: w / 1.5,
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                hintText: 'Name',
+                                hintStyle: TextStyle(
+                                  color: Color.fromRGBO(114, 29, 83, 1),
+                                  fontSize: 16,
+                                ),
+                                border: InputBorder.none),
+                            validator: (val){
+                              if(val==null){
+                                return 'Please Enter a name';
+                              }
+                            },
+                            onSaved: (val){
+                              _name=val;
+                            },
+                          ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          width: w / 1.4,
+                          height: 1,
+                          color: Color.fromRGBO(92, 29, 79, 1),
+                        ),
+                         SizedBox(
+                          height: h / 40,
+                        ),
+                        Container(
+                          width: w / 1.5,
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                hintText: 'Symbol',
+                                hintStyle: TextStyle(
+                                  color: Color.fromRGBO(114, 29, 83, 1),
+                                  fontSize: 16,
+                                ),
+                                border: InputBorder.none),
+                            validator: (val){
+                              if(val==null){
+                                return 'Please Enter a Symbol';
+                              }
+                            },
+                            onSaved: (val){
+                              _Symbol=val;
+                            },
+                          ),
+                        ),
+                        Container(
+                          width: w / 1.4,
+                          height: 1,
+                          color: Color.fromRGBO(92, 29, 79, 1),
+                        )
+                      ],
+                    ),
                   ),
+                ),
 
+                Container(
+                  width: w / 1.2,
+                  height: h / 5,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('images/form2.png'),
+                          fit: BoxFit.fill)),
+                  child: Center(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('Click to Color lens to Choose Color',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                        InkWell(
+                          onTap:(){ createAlertColor(context, _selectedColor);
+                            _color=_selectedColor.toString();},
+                          child: IconButton(
+                            icon: Icon(Icons.color_lens,size: 80,color: _selectedColor,),
 
-                  Container(
-                    width: 100,
-                    height: 50,
-                    margin: EdgeInsets.only(top: 50),
+                          ),
+                        ),
+                      ],
+                    )
+                  ),
+                ),
+                SizedBox(height: h/15,),
+                InkWell(
+                  onTap: addElement,
+                  child: Container(
+                    width: w/2,
+                    height: h/14,
                     decoration: BoxDecoration(
-                      color: _color,
-                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                        image: AssetImage('images/appbarbg.png'),
+                        fit: BoxFit.cover
+                      )
                     ),
                     child: Center(
-                      child: Text(
-                        'Save',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16
-                        ),
-                      ),
+                      child: Text('Add',style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 26
+                      ),),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
