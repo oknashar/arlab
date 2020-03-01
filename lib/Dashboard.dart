@@ -29,8 +29,18 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
+  @override
+  void initState() {
+    getUserData();
+    crud.getData().then((data){
+      Items = data;
+    });
+    super.initState();
+  }
+
+
   Widget showItems() {
-    if (Items != null && Items.documents != null) {
+    if (Items != null) {
       return ListView.builder(
           itemCount: Items.documents.length,
           itemBuilder: (context, index) {
@@ -140,12 +150,6 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
-  @override
-  void initState() {
-    getUserData();
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

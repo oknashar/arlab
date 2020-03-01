@@ -1,3 +1,4 @@
+import 'package:arlab/AddEquation.dart';
 import 'package:arlab/Splach.dart';
 import 'package:flutter/material.dart';
 

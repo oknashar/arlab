@@ -163,7 +163,7 @@ class _SignUpState extends State<SignUp> {
                       color: Color.fromRGBO(40, 49, 54, 1),
                       child: Center(
                         child: Text(
-                          'Login',
+                          'SignUp',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
