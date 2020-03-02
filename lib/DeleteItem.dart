@@ -36,7 +36,20 @@ class _DeleteItemState extends State<DeleteItem> {
 
 
   Widget showItems() {
-    if (Items != null && Items.documents != null) {
+    if (Items == null ) {
+      return Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.black,
+        ),
+      );
+    } else if (Items.documents.isEmpty) {
+      return Center(
+        child: Text(
+          'You haven\'t data yet please add data',
+          style: TextStyle(color: Colors.black, fontSize: 20),
+        ),
+      );
+    } else {
       return ListView.builder(
           itemCount: Items.documents.length,
           itemBuilder: (context, index) {
@@ -118,7 +131,7 @@ class _DeleteItemState extends State<DeleteItem> {
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
                                         builder: (context) => DeleteItem()),
-                                    (Route <dynamic> route )=>false);
+                                        (Route <dynamic> route )=>false);
                               },
                             ),
                           ],
@@ -130,19 +143,6 @@ class _DeleteItemState extends State<DeleteItem> {
               ),
             );
           });
-    } else if (Items.documents.isEmpty) {
-      return Center(
-        child: Text(
-          'You haven\'t data yet please add data',
-          style: TextStyle(color: Colors.black, fontSize: 20),
-        ),
-      );
-    } else {
-      return Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.black,
-        ),
-      );
     }
   }
 

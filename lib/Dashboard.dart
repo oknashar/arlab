@@ -40,7 +40,20 @@ class _DashboardState extends State<Dashboard> {
 
 
   Widget showItems() {
-    if (Items != null) {
+    if (Items == null) {
+      return Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.black,
+        ),
+      );
+    } else if (Items.documents.isEmpty) {
+      return Center(
+        child: Text(
+          'You haven\'t data yet please add data',
+          style: TextStyle(color: Colors.black, fontSize: 20),
+        ),
+      );
+    } else {
       return ListView.builder(
           itemCount: Items.documents.length,
           itemBuilder: (context, index) {
@@ -66,9 +79,9 @@ class _DashboardState extends State<Dashboard> {
                               height: 60,
                               decoration: BoxDecoration(
                                 color:
-                                    Color(Items.documents[index].data['color']),
+                                Color(Items.documents[index].data['color']),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(50)),
+                                BorderRadius.all(Radius.circular(50)),
                               ),
                             ),
                             Column(
@@ -134,19 +147,6 @@ class _DashboardState extends State<Dashboard> {
               ),
             );
           });
-    } else if (Items.documents.isEmpty) {
-      return Center(
-        child: Text(
-          'You haven\'t data yet please add data',
-          style: TextStyle(color: Colors.black, fontSize: 20),
-        ),
-      );
-    } else {
-      return Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.black,
-        ),
-      );
     }
   }
 
