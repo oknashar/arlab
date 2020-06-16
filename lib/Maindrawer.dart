@@ -1,8 +1,10 @@
 import 'package:arlab/Dashboard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'AddItem.dart';
+import 'CRUD.dart';
 import 'DeleteItem.dart';
 import 'SignIn.dart';
 
@@ -11,13 +13,22 @@ class Maindrawer extends StatefulWidget {
   _MaindrawerState createState() => _MaindrawerState();
 }
 
+
 class _MaindrawerState extends State<Maindrawer> {
+ CrudFire crud = new CrudFire();
+  QuerySnapshot Items;
+  String username;
   FirebaseUser user;
   Future<void> getUserData() async {
     FirebaseUser userdata = await FirebaseAuth.instance.currentUser();
     setState(() {
       user = userdata;
-      print(userdata.email);
+      crud.getUserData(collectionname: "Users").then((data) {
+        setState(() {
+          Items = data;
+          username=Items.documents[0].data['username'];
+        });
+      });
     });
   }
 
@@ -30,6 +41,7 @@ class _MaindrawerState extends State<Maindrawer> {
   void initState() {
     super.initState();
     getUserData();
+    
   }
 
   @override
@@ -39,7 +51,7 @@ class _MaindrawerState extends State<Maindrawer> {
     return Drawer(
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: Container(
+        child:Container(
           width: double.infinity,
           height: h,
           child: Column(
@@ -56,7 +68,7 @@ class _MaindrawerState extends State<Maindrawer> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      user.email,
+                     username==null?'load':username,
                       style: TextStyle(fontSize: 24, color: Colors.white),
                     )
                   ],
@@ -76,7 +88,7 @@ class _MaindrawerState extends State<Maindrawer> {
                             icon: Icon(
                               Icons.dashboard,
                               color: Color.fromRGBO(67, 30, 75, 1),
-                            ),
+                            ), onPressed: () {  },
                           ),
                           Text(
                             'Dashboard',
@@ -94,7 +106,7 @@ class _MaindrawerState extends State<Maindrawer> {
                             icon: Icon(
                               Icons.add_circle,
                               color: Color.fromRGBO(67, 30, 75, 1),
-                            ),
+                            ), onPressed: () {  },
                           ),
                           Text(
                             'Add',
@@ -104,14 +116,15 @@ class _MaindrawerState extends State<Maindrawer> {
                       ),
                     ),
                     InkWell(
-                      onTap: signout,
+                      onTap:()=> Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Dashboard())),
                       child: Row(
                         children: <Widget>[
                           IconButton(
                             icon: Icon(
                               Icons.update,
                               color: Color.fromRGBO(67, 30, 75, 1),
-                            ),
+                            ), onPressed: () {  },
                           ),
                           Text(
                             'Update',
@@ -128,7 +141,7 @@ class _MaindrawerState extends State<Maindrawer> {
                             icon: Icon(
                               Icons.delete,
                               color: Color.fromRGBO(67, 30, 75, 1),
-                            ),
+                            ), onPressed: () {  },
                           ),
                           Text(
                             'Delete',
@@ -150,7 +163,7 @@ class _MaindrawerState extends State<Maindrawer> {
                             icon: Icon(
                               Icons.settings,
                               color: Color.fromRGBO(67, 30, 75, 1),
-                            ),
+                            ), onPressed: () {  },
                           ),
                           Text(
                             'Setting',
@@ -167,7 +180,7 @@ class _MaindrawerState extends State<Maindrawer> {
                             icon: Icon(
                               Icons.help,
                               color: Color.fromRGBO(67, 30, 75, 1),
-                            ),
+                            ), onPressed: () {  },
                           ),
                           Text(
                             'Help',
@@ -184,7 +197,7 @@ class _MaindrawerState extends State<Maindrawer> {
                             icon: Icon(
                               Icons.exit_to_app,
                               color: Color.fromRGBO(67, 30, 75, 1),
-                            ),
+                            ), onPressed: () {  },
                           ),
                           Text(
                             'Logout',

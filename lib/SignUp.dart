@@ -1,4 +1,5 @@
 import 'package:arlab/SignIn.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,22 +12,26 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
+  
+bool is_btn_register = false;
  Future<void> signup()async{
    final formdata = formstate.currentState;
    if (formdata.validate()) {
      formdata.save();
 
-       FirebaseUser fireuser = await FirebaseAuth.instance
-           .createUserWithEmailAndPassword(email: _email, password: _password) as FirebaseUser;
-       fireuser.sendEmailVerification();
-       print(fireuser.email);
+    AuthResult fireuser = await FirebaseAuth.instance
+           .createUserWithEmailAndPassword(email: _email.trim(), password: _password);
+       FirebaseUser user = await FirebaseAuth.instance.currentUser();
+         Firestore.instance.collection('Users').add({
+       'uid':user.uid,
+       'username':_username
+     });
        Navigator.pushReplacement(
            context,
            MaterialPageRoute(
                builder: (context) => Home()));
 
-       print(fireuser.email);
-
+      
    } else {}
   }
   final GlobalKey<FormState> formstate =GlobalKey<FormState>();
@@ -38,7 +43,7 @@ class _SignUpState extends State<SignUp> {
 
     return Scaffold(
 
-      body: ListView(
+      body: is_btn_register ? Center(child: CircularProgressIndicator()) :ListView(
         children: <Widget>[
           Container(
             width:w,
@@ -156,7 +161,10 @@ class _SignUpState extends State<SignUp> {
                   //Login Button
                   SizedBox(height: h/20,),
                   InkWell(
-                    onTap: () => Home(),
+                    onTap: (){
+                    is_btn_register=true;
+                    signup() ;
+                    } ,
                     child: Container(
                       width: w / 1.5,
                       height: h / 20,
@@ -170,34 +178,34 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
 
-                  SizedBox(height: h/30,),
+                  // SizedBox(height: h/40,),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: <Widget>[
 
-                      Text(
-                        'You have an account?',
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 20
-                        ),
-                      ),
-                      InkWell(
-                        child: Text(
-                          'SignIn',
+                  //     Text(
+                  //       'You have an account?',
+                  //       style: TextStyle(
+                  //           color: Colors.grey,
+                  //           fontSize: 20
+                  //       ),
+                  //     ),
+                  //     InkWell(
+                  //       child: Text(
+                  //         'SignIn',
 
-                          style: TextStyle(
-                              color: Colors.black,
+                  //         style: TextStyle(
+                  //             color: Colors.black,
 
-                              fontSize: 22
-                          ),
-                        ),
-                        // onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>SignIn())),
-                        onTap: ()=> Navigator.pop(context),
-                      ),
-                    ],
-                  )
+                  //             fontSize: 22
+                  //         ),
+                  //       ),
+                  //       // onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>SignIn())),
+                  //       onTap: ()=> Navigator.pop(context),
+                  //     ),
+                  //   ],
+                  // )
 
                 ],
               ),

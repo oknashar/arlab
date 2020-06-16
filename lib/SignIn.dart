@@ -12,24 +12,62 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final GlobalKey<FormState> formstate = GlobalKey<FormState>();
   String _email, _password;
-
+  bool is_logged_btn = false;
   Future <void> login() async {
     final formdata = formstate.currentState;
     if (formdata.validate()) {
       formdata.save();
       try {
+        is_logged_btn = true;
         AuthResult fireuser = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: _email, password: _password);
+            .signInWithEmailAndPassword(email: _email.trim(), password: _password.trim());
+            
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => Home()));
 
-        print(fireuser.user.email);
       } catch (error) {
-        print(error.message);
+        is_logged_btn = false;
+        createAlert(context, 'please enter a valid user name and password');
       }
     } else {}
+  }
+
+  createAlert(BuildContext context ,String text ){
+    var alert =
+    Container(
+     
+      child: AlertDialog(
+              title: Text('Login'),
+              
+              content: Container(
+                width: MediaQuery.of(context).size.width/2,
+                 height: MediaQuery.of(context).size.height/4,
+                child: Column(children: <Widget>[
+                  Center(child: Text(text,style: TextStyle(fontSize: 32),)),
+                
+        ],),
+              ),
+              actions: <Widget>[
+                  RaisedButton(
+                    color: Colors.red,
+                    child: Center(
+                     child:Text('Cancel',style: TextStyle(color: Colors.white),),
+                    ),
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                  )
+              ],
+      ),
+    );
+    showDialog(context: context , builder: (context){
+    return alert;
+
+
+
+    });
   }
 
   @override
@@ -37,7 +75,7 @@ class _SignInState extends State<SignIn> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: ListView(
+      body: is_logged_btn?Center(child: CircularProgressIndicator()) : ListView(
         children: <Widget>[
           Container(
             width: w,
@@ -138,7 +176,9 @@ class _SignInState extends State<SignIn> {
                     height: h / 20,
                   ),
                   InkWell(
-                    onTap: () => login(),
+                    onTap: () {
+                            login();
+                    } ,
                     child: Container(
                       width: w / 1.5,
                       height: h / 20,

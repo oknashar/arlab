@@ -215,7 +215,7 @@ class _UpdateItemState extends State<UpdateItem> {
                             onTap:(){ createAlertColor(context, _selectedColor);
                             _color=_selectedColor.toString();},
                             child: IconButton(
-                              icon: Icon(Icons.color_lens,size: 80,color: _selectedColor,),
+                              icon: Icon(Icons.color_lens,size: 80,color: _selectedColor,), onPressed: () {  },
 
                             ),
                           ),

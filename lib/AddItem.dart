@@ -1,6 +1,5 @@
 import 'package:arlab/CRUD.dart';
 import 'package:arlab/Dashboard.dart';
-import 'package:arlab/Maindrawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -212,7 +211,7 @@ class _AddItemState extends State<AddItem> {
                           Text('Click to Color lens to Choose Color',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
 
                              IconButton(
-                              icon: Icon(Icons.color_lens,size: 100,color: _selectedColor,),
+                              icon: Icon(Icons.color_lens,size: 100,color: _selectedColor,), onPressed: () {  },
 
                             ),
 
